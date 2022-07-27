@@ -1,8 +1,28 @@
 import "../App.css";
+import { GlobalText } from "../context/GlobalState";
+import { useContext, useState } from "react";
+import { makeId } from "../util";
 
 function Form(props) {
+  const [name, setName] = useState("");
+  const [status, setStatus] = useState(false);
+
   const { openForm } = props;
+  const { addTask } = useContext(GlobalText);
   // console.log("props", props);
+
+  function handleSubmit() {
+    let newTask = {
+      id: makeId(),
+      name: name,
+      status: status,
+    };
+    if (name !== "") {
+      addTask(newTask);
+      setName("");
+      setStatus(false);
+    }
+  }
   function handleOpenform() {
     // console.log("here");
     openForm();
@@ -26,22 +46,37 @@ function Form(props) {
                 <label>
                   <b>Tên :</b>
                 </label>
-                <input type="text" className="form-control" name="name" />
+                <input
+                  type="text"
+                  className="form-control"
+                  name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </div>
               <label>
                 <b>Trạng Thái :</b>
               </label>
-              <select className="form-control" name="status">
-                <option value="true">Kích Hoạt</option>
-                <option value="false">Ẩn</option>
+              <select
+                className="form-control"
+                name="status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value={true}>Kích Hoạt</option>
+                <option value={false}>Ẩn</option>
               </select>
               <br />
               <div className="text-center">
-                <button className="btn btn-warning">
+                <button className="btn btn-warning" onClick={handleSubmit}>
                   <span className="fa fa-plus mr-2"></span>Lưu Lại
                 </button>
                 &nbsp;
-                <button type="button" className="btn btn-danger">
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={handleOpenform}
+                >
                   <span className="fa fa-close mr-2"></span>Hủy Bỏ
                 </button>
               </div>
