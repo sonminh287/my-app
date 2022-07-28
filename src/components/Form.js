@@ -4,24 +4,26 @@ import { makeId } from "../util";
 
 function Form(props) {
   const { openForm, addTask } = props;
+
   const [formData, setFormData] = useState({
     name: "",
-    status: true,
+    status: false,
   });
+  // console.log(formData);
 
   function handleSubmit(e) {
     e.preventDefault();
 
     let newTask = {
       id: makeId(),
-      name: e.target[0].value,
-      status: e.target[1].value,
+      ...formData,
     };
+
     addTask(newTask);
+    handleResetForm();
   }
   function handleResetForm() {
-    console.log("reeeeeeeeeeeeeeeds");
-    setFormData({ name: "", status: false });
+    setFormData({ name: " ", status: false });
   }
   function handleOpenform() {
     openForm();
@@ -64,9 +66,13 @@ function Form(props) {
                   className="form-control"
                   name="status"
                   value={formData.status}
-                  onChange={(e) =>
-                    setFormData({ ...formData, status: e.target.value })
-                  }
+                  onChange={(e) => {
+                    const status = e.target.value === "true" ? true : false;
+                    setFormData({
+                      ...formData,
+                      status,
+                    });
+                  }}
                 >
                   <option value={true}>Kích Hoạt</option>
                   <option value={false}>Ẩn</option>
