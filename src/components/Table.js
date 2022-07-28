@@ -1,10 +1,7 @@
 import "../App.css";
 import ItemTable from "./ItemTable";
-import { useContext } from "react";
-import { GlobalText } from "../context/GlobalState";
 
-function Table() {
-  const { items } = useContext(GlobalText);
+function Table({ dataRender }) {
   return (
     <>
       <table className="table table-bordered table-hover">
@@ -31,8 +28,8 @@ function Table() {
             </td>
             <td></td>
           </tr>
-          {items &&
-            items.map((item, index) => {
+          {dataRender &&
+            dataRender.map((item, index) => {
               return <ItemTable key={index} item={item} index={index} />;
             })}
         </tbody>
