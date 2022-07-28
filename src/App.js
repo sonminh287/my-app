@@ -19,17 +19,17 @@ const dataRender = [
   },
   {
     id: makeId(),
-    name: "son",
-    status: false,
-  },
-  {
-    id: makeId(),
     name: "vinh",
     status: true,
   },
   {
     id: makeId(),
     name: "giang",
+    status: true,
+  },
+  {
+    id: makeId(),
+    name: "Minh Son",
     status: true,
   },
 ];
