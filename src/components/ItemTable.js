@@ -1,7 +1,10 @@
 import "../App.css";
+import { useContext } from "react";
+import { GlobalText } from "../context/GlobalState";
 
 function ItemTable(props) {
   const { item, index } = props;
+  const { deleteTask } = useContext(GlobalText);
   return (
     <>
       <tr>
@@ -17,7 +20,11 @@ function ItemTable(props) {
             <span className="fa fa-pencil mr-2"></span>Sửa
           </button>
           &nbsp;
-          <button type="button" className="btn btn-danger">
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={() => deleteTask(item.id)}
+          >
             <span className="fa fa-trash mr-2"></span>Xóa
           </button>
         </td>
