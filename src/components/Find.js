@@ -1,6 +1,7 @@
 import "../App.css";
+// import { useState } from "react";
 
-function Search() {
+function Find(props) {
   return (
     <>
       <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -8,7 +9,6 @@ function Search() {
           <input
             type="text"
             name="keyword"
-            value=""
             className="form-control"
             placeholder="Nhập từ khóa..."
           />
@@ -23,4 +23,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default Find;
