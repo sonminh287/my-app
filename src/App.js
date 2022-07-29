@@ -18,7 +18,6 @@ function App() {
   // function truyền xuống để hứng data truyền lên
   function addData(newData) {
     //6 hứng data từ form
-    // console.log("newData", data);
     //7 set lại data mới
     setIsEdit(false);
     setData([...data, newData]);
@@ -67,6 +66,7 @@ function App() {
           <div className={show ? "col-8" : "col-12"}>
             <button
               onClick={() => handleShowForm(true)}
+              // onClick={handleShowForm}
               type="button"
               className="btn btn-primary"
             >

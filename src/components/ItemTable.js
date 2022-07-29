@@ -9,6 +9,9 @@ function ItemTable(props) {
   function editItemComponent() {
     editItem(item);
   }
+  // const handleChangeStatus = () => {
+  //   clickChangeStatus();
+  // };
 
   return (
     <>
@@ -16,10 +19,29 @@ function ItemTable(props) {
         <td>{index + 1}</td>
         <td>{item.name}</td>
         <td className="text-center">
-          <span className="label label-info">
+          <span
+            className={
+              item.status
+                ? "btn btn-primary text-light py-1 px-3"
+                : "btn btn-danger text-light py-1 px-3"
+            }
+            // onClick={() => handleChangeStatus(item.id)}
+          >
             {item.status ? "Kích Hoạt" : "Ẩn"}
           </span>
+          {/* <div onClick={() => handleChangeStatus(item.id)}>
+            {item.status === "1" ? (
+              <button className="btn btn-primary text-light py-1 px-3">
+                Kích hoạt
+              </button>
+            ) : (
+              <button className="btn btn-danger text-light py-1 px-3">
+                Ẩn
+              </button>
+            )}
+          </div> */}
         </td>
+
         <td className="text-center">
           <button
             onClick={editItemComponent}

@@ -8,8 +8,10 @@ function Table(props) {
   useEffect(() => {
     setIsLoaded(false);
   }, [isLoaded]);
+  // const handleChangeStatus = () => {
+  //   props.handleChangeStatus();
+  // };
 
-  // console.log("table props", data);
   return (
     <>
       <div className="row mt-15">
@@ -50,6 +52,7 @@ function Table(props) {
                     item={item}
                     index={index}
                     editItem={editItem}
+                    // clickChangeStatus={handleChangeStatus}
                   />
                 );
               })}

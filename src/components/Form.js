@@ -7,6 +7,7 @@ function Form(props) {
 
   const name = useRef();
   const status = useRef();
+  // const id = useRef();
 
   useEffect(() => {
     if (isEdit) {
@@ -62,7 +63,7 @@ function Form(props) {
       <div className="panel panel-warning">
         <div className="panel-heading">
           <h3 className="panel-title">
-            Thêm công việc
+            {isEdit === false ? "Thêm công việc" : "Cập nhật công việc"}
             <span
               onClick={closedForm}
               className="fa fa-times-circle text-right"
