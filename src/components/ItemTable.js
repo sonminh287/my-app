@@ -1,7 +1,7 @@
 import "../App.css";
 
 function ItemTable(props) {
-  const { item, index, removeItem, editItem } = props;
+  const { item, index, removeItem, editItem, editData } = props;
   function removeItemComponent() {
     removeItem(item.id);
   }
@@ -9,9 +9,10 @@ function ItemTable(props) {
   function editItemComponent() {
     editItem(item);
   }
-  // const handleChangeStatus = () => {
-  //   clickChangeStatus();
-  // };
+  function handleChangeStatus() {
+    const newData = { ...item, status: !item.status };
+    editData(newData);
+  }
 
   return (
     <>
@@ -25,7 +26,7 @@ function ItemTable(props) {
                 ? "btn btn-primary text-light py-1 px-3"
                 : "btn btn-danger text-light py-1 px-3"
             }
-            // onClick={() => handleChangeStatus(item.id)}
+            onClick={() => handleChangeStatus(item.id)}
           >
             {item.status ? "Kích Hoạt" : "Ẩn"}
           </span>

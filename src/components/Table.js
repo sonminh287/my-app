@@ -3,7 +3,7 @@ import ItemTable from "./ItemTable";
 import { useEffect } from "react";
 
 function Table(props) {
-  const { data, removeItem, isLoaded, setIsLoaded, editItem } = props;
+  const { data, removeItem, isLoaded, setIsLoaded, editItem, editData } = props;
 
   useEffect(() => {
     setIsLoaded(false);
@@ -52,7 +52,7 @@ function Table(props) {
                     item={item}
                     index={index}
                     editItem={editItem}
-                    // clickChangeStatus={handleChangeStatus}
+                    editData={editData}
                   />
                 );
               })}

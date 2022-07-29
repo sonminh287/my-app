@@ -14,6 +14,7 @@ function App() {
 
   function handleShowForm(value) {
     setShow(value);
+    setIsEdit(false);
   }
   // function truyền xuống để hứng data truyền lên
   function addData(newData) {
@@ -43,7 +44,7 @@ function App() {
   function editItem(item) {
     setIsEdit(true);
     setItemEdit(item);
-    handleShowForm(true);
+    setShow(true);
   }
   return (
     <>
@@ -82,6 +83,7 @@ function App() {
               removeItem={removeItem}
               editItem={editItem}
               isLoaded={isLoaded}
+              editData={editData}
             />
           </div>
         </div>

@@ -13,8 +13,11 @@ function Form(props) {
     if (isEdit) {
       name.current.value = itemEdit.name;
       status.current.value = itemEdit.status ? 1 : 0;
+    } else {
+      name.current.value = "";
+      status.current.value = 1;
     }
-  }, [isEdit]);
+  }, [isEdit, itemEdit]);
   function closedForm() {
     handleShowForm(false);
   }
