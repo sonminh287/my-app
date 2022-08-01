@@ -3,15 +3,30 @@ import Form from "./components/Form";
 import Find from "./components/Find";
 import Sort from "./components/Sort";
 import Table from "./components/Table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getTodoLocalStorage, setTodoLocalStorage } from "./localStorage";
 
+const todoLocalStorage = getTodoLocalStorage();
 function App() {
   const [show, setShow] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(todoLocalStorage || []);
   const [isEdit, setIsEdit] = useState(false);
   const [itemEdit, setItemEdit] = useState();
   const [valueSort, setValueSort] = useState("sortAlphaAsc");
+  // const [inputText, setInputText] = useState("");
+
+  // useEffect(() => {
+  //   const data = JSON.parse(localStorage.getItem("Todos"));
+  //   setData(data);
+  // }, []);
+  // useEffect(() => {
+  //   localStorage.setItem("Todos", JSON.stringify(data));
+  // }, [inputText]);
+
+  setTodoLocalStorage(data);
+  console.log(data);
+
   function handleShowForm(value) {
     setShow(value);
     setIsEdit(false);
@@ -31,6 +46,7 @@ function App() {
       if (item.id !== id) newData.push(item);
     });
     setData(newData);
+    // setTodoLocalStorage(newData);
   }
 
   function editItem(item) {
@@ -78,6 +94,15 @@ function App() {
       setData(newData);
     }
   }
+  // useEffect(() => {
+  //   const dataLocal = getLocalStorage();
+  //   if (data !== []) {
+  //     setData(dataLocal);
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   localStorage.setItem("todos", JSON.stringify(data));
+  // }, [data]);
 
   return (
     <>
@@ -95,6 +120,8 @@ function App() {
               setIsEdit={setIsEdit}
               itemEdit={itemEdit}
               editData={editData}
+              // setInputText={setInputText}
+              // setData={setData}
             />
           </div>
           <div className={show ? "col-8" : "col-12"}>
