@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import "../App.css";
 import { makeId } from "../util";
 function Form(props) {
-  const { handleShowForm, addData, isEdit, itemEdit, setIsEdit, editData } =
+  const { handleShowForm, handleData, isEdit, itemEdit, setIsEdit, editData } =
     props;
 
   const name = useRef();
@@ -55,7 +55,8 @@ function Form(props) {
         editData(newData);
         setIsEdit(false);
       } else {
-        addData(newData);
+        // addData(newData);
+        handleData(newData);
       }
       // clear data
       clearForm();
@@ -65,18 +66,20 @@ function Form(props) {
     <>
       <div className="panel panel-warning">
         <div className="panel-heading">
-          <h3 className="panel-title">
+          <h3 className="px-3 panel-title">
             {isEdit === false ? "Thêm công việc" : "Cập nhật công việc"}
             <span
               onClick={closedForm}
-              className="fa fa-times-circle text-right"
+              className="fa fa-times-circle text-right hoverX"
             ></span>
           </h3>
         </div>
         <div className="panel-body">
-          <form onSubmit={handleSubmit}>
+          <form className="p-3" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Tên :</label>
+              <label>
+                <b>Tên :</b>
+              </label>
               <input
                 ref={name}
                 type="text"
@@ -84,7 +87,9 @@ function Form(props) {
                 name="name"
               />
             </div>
-            <label>Trạng Thái :</label>
+            <label>
+              <b>Trạng Thái :</b>
+            </label>
             <select ref={status} className="form-control" name="status">
               <option value={1}>Kích Hoạt</option>
               <option value={0}>Ẩn</option>

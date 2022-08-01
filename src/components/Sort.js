@@ -79,9 +79,11 @@
 // export default Sort;
 
 import "../App.css";
+import { useEffect } from "react";
 
 function Sort(props) {
   const { setValueSort } = props;
+
   const setValueSortItem = (e) => {
     setValueSort(e.target.value);
   };

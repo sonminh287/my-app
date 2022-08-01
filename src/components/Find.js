@@ -2,7 +2,7 @@ import "../App.css";
 import { useState } from "react";
 
 function Find(props) {
-  const [valueFind, setValueFind] = useState(" ");
+  const [valueFind, setValueFind] = useState("");
   const { findItemName } = props;
   const findItemComponent = () => {
     findItemName(valueFind);
@@ -14,7 +14,7 @@ function Find(props) {
           <input
             type="text"
             name="keyword"
-            className="form-control"
+            className="form-control search"
             placeholder="Nhập từ khóa..."
             value={valueFind}
             onChange={(e) => setValueFind(e.target.value)}
@@ -22,10 +22,10 @@ function Find(props) {
           <span className="input-group-btn">
             <button
               onClick={findItemComponent}
-              className="btn btn-primary"
+              className="btn btn-primary search2"
               type="button"
             >
-              <span className="fa fa-search mr-2"></span>Tìm
+              <span className="fa fa-search mr-2 "></span>Tìm
             </button>
           </span>
         </div>

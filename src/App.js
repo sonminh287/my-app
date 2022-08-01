@@ -3,17 +3,18 @@ import Form from "./components/Form";
 import Find from "./components/Find";
 import Sort from "./components/Sort";
 import Table from "./components/Table";
-import { useEffect, useState } from "react";
-import { getTodoLocalStorage, setTodoLocalStorage } from "./localStorage";
+import { useState, useEffect } from "react";
+// import { getTodoLocalStorage, setTodoLocalStorage } from "./localStorage";
 
-const todoLocalStorage = getTodoLocalStorage();
+// const todoLocalStorage = getTodoLocalStorage();
 function App() {
+  const defaultValue = JSON.parse(localStorage.getItem("data"));
   const [show, setShow] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [data, setData] = useState(todoLocalStorage || []);
+  const [data, setData] = useState(defaultValue || []);
   const [isEdit, setIsEdit] = useState(false);
   const [itemEdit, setItemEdit] = useState();
-  const [valueSort, setValueSort] = useState("sortAlphaAsc");
+  const [valueSort, setValueSort] = useState();
   // const [inputText, setInputText] = useState("");
 
   // useEffect(() => {
@@ -24,21 +25,40 @@ function App() {
   //   localStorage.setItem("Todos", JSON.stringify(data));
   // }, [inputText]);
 
-  setTodoLocalStorage(data);
-  console.log(data);
+  // setTodoLocalStorage(data);
+  // console.log(data);
 
   function handleShowForm(value) {
     setShow(value);
     setIsEdit(false);
   }
   // function truyền xuống để hứng data truyền lên
-  function addData(newData) {
+  // function addData(newData) {
+  //   //6 hứng data từ form
+  //   // console.log("newData", data);
+  //   //7 set lại data mới
+  //   setIsEdit(false);
+  //   setData([...data, newData]);
+  //   setIsLoaded(true);
+  // }
+  function handleData(newData, type) {
     //6 hứng data từ form
-    // console.log("newData", data);
     //7 set lại data mới
-    setIsEdit(false);
     setData([...data, newData]);
-    setIsLoaded(true);
+    if (type) {
+      const newDataResult = [];
+      data.forEach((item) => {
+        if (item.id !== newData.id) newDataResult.push(item);
+        else {
+          newDataResult.push(newData);
+        }
+      });
+      setData(newDataResult);
+      localStorage.setItem("data", JSON.stringify(newDataResult));
+    } else {
+      setData([...data, newData]);
+      localStorage.setItem("data", JSON.stringify([...data, newData]));
+    }
   }
   function removeItem(id) {
     const newData = [];
@@ -46,7 +66,7 @@ function App() {
       if (item.id !== id) newData.push(item);
     });
     setData(newData);
-    // setTodoLocalStorage(newData);
+    localStorage.setItem("data", JSON.stringify(newData));
   }
 
   function editItem(item) {
@@ -62,8 +82,16 @@ function App() {
   }
 
   function findItemName(value) {
-    const newData = data.filter((item) => item.name.includes(value));
-    setData(newData);
+    const oldData = JSON.parse(localStorage.getItem("data"));
+    // console.log(value);
+    if (value !== "") {
+      const newData = oldData.filter((item) =>
+        item.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setData(newData);
+    } else {
+      setData(oldData);
+    }
   }
 
   function sortItem(value) {
@@ -79,7 +107,7 @@ function App() {
       const statusHidden = data.filter((item) => item.status === false);
       newData = [...statusActive, ...statusHidden];
       setData(newData);
-    } else {
+    } else if (value === "sortStatusHidden") {
       const statusActive = data.filter((item) => item.status === true);
       const statusHidden = data.filter((item) => item.status === false);
       newData = [...statusHidden, ...statusActive];
@@ -88,22 +116,15 @@ function App() {
   }
 
   function findItemStatus(value) {
+    const oldData = JSON.parse(localStorage.getItem("data"));
     if (value !== "-1") {
       const valueStatus = value === "1" ? true : false;
-      const newData = data.filter((item) => item.status === valueStatus);
+      const newData = oldData.filter((item) => item.status === valueStatus);
       setData(newData);
+    } else {
+      setData(oldData);
     }
   }
-  // useEffect(() => {
-  //   const dataLocal = getLocalStorage();
-  //   if (data !== []) {
-  //     setData(dataLocal);
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   localStorage.setItem("todos", JSON.stringify(data));
-  // }, [data]);
-
   return (
     <>
       <div className="container">
@@ -115,7 +136,8 @@ function App() {
           <div className={show ? "col-4" : "d-none"}>
             <Form
               handleShowForm={handleShowForm}
-              addData={addData}
+              // addData={addData}
+              handleData={handleData}
               isEdit={isEdit}
               setIsEdit={setIsEdit}
               itemEdit={itemEdit}
