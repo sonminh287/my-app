@@ -7,7 +7,6 @@ function Form(props) {
 
   const name = useRef();
   const status = useRef();
-  // const id = useRef();
 
   useEffect(() => {
     if (isEdit) {
@@ -26,13 +25,14 @@ function Form(props) {
     name.current.value = "";
     status.current.value = 1;
     handleShowForm(false);
-    closedForm();
+    // closedForm();
   }
   function handleSubmit(event) {
     //1 chặn load lại form
     event.preventDefault();
     //2 lấy data từ input name
     // dùng event
+    // const name = event.target[0].value;
     // const status = event.target[1].value;
     // dùng ref
     //3 kiểm tra name có value mới thực thi

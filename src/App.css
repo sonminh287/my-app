@@ -131,3 +131,11 @@ h3 {
 .head {
   color: rgb(227, 85, 109);
 }
+.sort_selected::after {
+  content: "\F00C";
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  margin: 0px 30px 0px 10px;
+  display: inline-block;
+}

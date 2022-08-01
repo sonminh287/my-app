@@ -1,16 +1,38 @@
 import "../App.css";
 import ItemTable from "./ItemTable";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 function Table(props) {
-  const { data, removeItem, isLoaded, setIsLoaded, editItem, editData } = props;
+  const [valueFind, setValueFind] = useState("");
+  const [valueStatus, setValueStatus] = useState("-1");
+  const {
+    data,
+    removeItem,
+    isLoaded,
+    setIsLoaded,
+    editItem,
+    findItemName,
+    findItemStatus,
+    valueSort,
+    sortItem,
+    editData,
+  } = props;
 
   useEffect(() => {
     setIsLoaded(false);
-  }, [isLoaded]);
-  // const handleChangeStatus = () => {
-  //   props.handleChangeStatus();
-  // };
+    sortItem(valueSort);
+  }, [valueSort, isLoaded]);
+
+  useEffect(() => {
+    findItemName(valueFind);
+  }, [valueFind]);
+
+  useEffect(() => {
+    findItemStatus(valueStatus);
+  }, [valueStatus, isLoaded]);
+  const handleChange = (e) => {
+    setValueFind(e.target.value);
+  };
 
   return (
     <>
@@ -31,12 +53,19 @@ function Table(props) {
                 <td>
                   <input
                     type="text"
+                    value={valueFind}
                     className="form-control"
                     name="filterName"
+                    onChange={(e) => handleChange(e)}
                   />
                 </td>
                 <td>
-                  <select className="form-control" name="filterStatus">
+                  <select
+                    value={valueStatus}
+                    className="form-control"
+                    name="filterStatus"
+                    onChange={(e) => setValueStatus(e.target.value)}
+                  >
                     <option value="-1">Tất Cả</option>
                     <option value="0">Ẩn</option>
                     <option value="1">Kích Hoạt</option>
