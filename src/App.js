@@ -3,10 +3,7 @@ import Form from "./components/Form";
 import Find from "./components/Find";
 import Sort from "./components/Sort";
 import Table from "./components/Table";
-import { useState, useEffect } from "react";
-// import { getTodoLocalStorage, setTodoLocalStorage } from "./localStorage";
-
-// const todoLocalStorage = getTodoLocalStorage();
+import { useState } from "react";
 function App() {
   const defaultValue = JSON.parse(localStorage.getItem("data"));
   const [show, setShow] = useState(false);
@@ -15,18 +12,6 @@ function App() {
   const [isEdit, setIsEdit] = useState(false);
   const [itemEdit, setItemEdit] = useState();
   const [valueSort, setValueSort] = useState();
-  // const [inputText, setInputText] = useState("");
-
-  // useEffect(() => {
-  //   const data = JSON.parse(localStorage.getItem("Todos"));
-  //   setData(data);
-  // }, []);
-  // useEffect(() => {
-  //   localStorage.setItem("Todos", JSON.stringify(data));
-  // }, [inputText]);
-
-  // setTodoLocalStorage(data);
-  // console.log(data);
 
   function handleShowForm(value) {
     setShow(value);
@@ -76,9 +61,13 @@ function App() {
   }
 
   function editData(newData) {
+    const dataEdit = [...data];
     const indexEdit = data.findIndex((item) => item.id === newData.id);
-    data[indexEdit] = newData;
-    setIsLoaded(true);
+    dataEdit[indexEdit] = newData;
+    setData(dataEdit);
+    localStorage.setItem("data", JSON.stringify(dataEdit));
+
+    // setIsLoaded(true);
   }
 
   function findItemName(value) {
@@ -125,6 +114,7 @@ function App() {
       setData(oldData);
     }
   }
+
   return (
     <>
       <div className="container">
@@ -142,8 +132,6 @@ function App() {
               setIsEdit={setIsEdit}
               itemEdit={itemEdit}
               editData={editData}
-              // setInputText={setInputText}
-              // setData={setData}
             />
           </div>
           <div className={show ? "col-8" : "col-12"}>

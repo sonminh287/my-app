@@ -79,7 +79,7 @@
 // export default Sort;
 
 import "../App.css";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 function Sort(props) {
   const { setValueSort } = props;
@@ -100,7 +100,7 @@ function Sort(props) {
             aria-haspopup="true"
             aria-expanded="true"
           >
-            Sắp Xếp <span className="fa fa-caret-square-o-down ml-5 "></span>
+            Sắp Xếp <span className="fa fa-caret-square-o-down ml-2 "></span>
           </button>
           <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
             <li>

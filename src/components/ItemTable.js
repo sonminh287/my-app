@@ -30,6 +30,7 @@ function ItemTable(props) {
           >
             {item.status ? "Kích Hoạt" : "Ẩn"}
           </span>
+
           {/* <div onClick={() => handleChangeStatus(item.id)}>
             {item.status === "1" ? (
               <button className="btn btn-primary text-light py-1 px-3">

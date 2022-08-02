@@ -130,7 +130,7 @@ h3 {
   font-size: 1rem;
 }
 .head {
-  color: rgb(227, 85, 109);
+  color: rgb(247, 9, 49);
 }
 .sort_selected::after {
   content: "\F00C";
