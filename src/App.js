@@ -81,6 +81,7 @@ function App() {
     } else {
       setData(oldData);
     }
+    
   }
 
   function sortItem(value) {
