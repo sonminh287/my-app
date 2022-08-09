@@ -1,118 +1,119 @@
-import { useRef, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import "../App.css";
-import { makeId } from "../util";
-function Form(props) {
-  const { handleShowForm, handleData, isEdit, itemEdit, setIsEdit, editData } =
-    props;
+import { useDispatch, useSelector } from "react-redux";
+import { setShowForm } from "../app/features/showFormSlice";
+import { addTodoList, updateTodoList } from "../app/features/todoSlice";
+import { getUuid } from "../utils/uuid";
+
+const Form = (props) => {
+  const dispatch = useDispatch();
 
   const name = useRef();
   const status = useRef();
 
+  const showForm = useSelector((state) => state.showForm.value);
+  const todoUpdate = useSelector((state) => state.todoList.todoUpdate);
+
   useEffect(() => {
-    if (isEdit) {
-      name.current.value = itemEdit.name;
-      status.current.value = itemEdit.status ? 1 : 0;
-    } else {
+    if (showForm.action === "add") {
       name.current.value = "";
-      status.current.value = 1;
+      status.current.value = "1";
     }
-  }, [isEdit, itemEdit]);
-  function closedForm() {
-    handleShowForm(false);
-  }
-  function clearForm() {
-    // set value mặc định
+  }, [showForm.action]);
+  useEffect(() => {
+    if (props.action === "update") {
+      name.current.value = todoUpdate.name;
+      status.current.value = todoUpdate.status;
+    }
+  }, [todoUpdate]);
+
+  // close box form add
+  const handleClickClose = () => {
+    dispatch(setShowForm({ status: false, action: "" }));
+  };
+  //Reset form add
+  const handleReset = () => {
     name.current.value = "";
-    status.current.value = 1;
-    handleShowForm(false);
-    // closedForm();
-  }
-  function handleSubmit(event) {
-    //1 chặn load lại form
-    event.preventDefault();
-    //2 lấy data từ input name
-    // dùng event
-    // const name = event.target[0].value;
-    // const status = event.target[1].value;
-    // dùng ref
-    //3 kiểm tra name có value mới thực thi
-    if (name.current.value !== "") {
-      //4 tạo item mới
-      const newData =
-        isEdit === false
-          ? {
-              id: makeId(),
-              name: name.current.value,
-              status: status.current.value === "1" ? true : false,
-            }
-          : {
-              id: itemEdit.id,
-              name: name.current.value,
-              status: status.current.value === "1" ? true : false,
-            };
-      //5 truyền lên app
-      if (isEdit) {
-        editData(newData);
-        setIsEdit(false);
-      } else {
-        // addData(newData);
-        handleData(newData);
-      }
-      // clear data
-      clearForm();
+    status.current.value = "1";
+  };
+
+  // Send data to app
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (showForm.action === "update") {
+      const data = {
+        id: todoUpdate.id,
+        name: name.current.value,
+        status: status.current.value,
+      };
+      // props.onUpdate(data);
+      dispatch(updateTodoList(data));
+    } else {
+      const data = {
+        id: getUuid(),
+        name: name.current.value,
+        status: status.current.value,
+      };
+      dispatch(addTodoList(data));
+
+      handleReset();
     }
-  }
+  };
   return (
-    <>
-      <div className="panel panel-warning">
+    <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+      <div className="panel panel-warning  p-3">
         <div className="panel-heading">
-          <h3 className="px-3 panel-title">
-            {isEdit === false ? "Thêm công việc" : "Cập nhật công việc"}
-            <span
-              onClick={closedForm}
-              className="fa fa-times-circle text-right hoverX"
-            ></span>
+          <h3 className="panel-title d-flex justify-content-between px-3">
+            <div>
+              {showForm.action === "add"
+                ? "Thêm công việc"
+                : "Cập nhật công việc"}
+            </div>
+            <div>
+              <span
+                className="fa fa-times-circle text-right hoverX"
+                onClick={handleClickClose}
+              ></span>
+            </div>
           </h3>
         </div>
         <div className="panel-body">
           <form className="p-3" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>
+              <label className="text-left">
                 <b>Tên :</b>
               </label>
-              <input
-                ref={name}
-                type="text"
-                className="form-control"
-                name="name"
-              />
+              <input type="text" className="form-control" ref={name} />
             </div>
-            <label>
+            <label className="text-left">
               <b>Trạng Thái :</b>
             </label>
-            <select ref={status} className="form-control" name="status">
-              <option value={1}>Kích Hoạt</option>
+            <select className="form-control" ref={status} name="status">
+              <option value={1}>Kích hoạt</option>
               <option value={0}>Ẩn</option>
             </select>
             <br />
             <div className="text-center">
-              <button type="submit" className="btn btn-warning">
-                <span className="fa fa-plus mr-2"></span>Lưu Lại
+              <button className="btn btn-warning">
+                <span className="fa fa-plus mr-2"></span>
+                Lưu Lại
               </button>
               &nbsp;
               <button
-                onClick={clearForm}
                 type="button"
                 className="btn btn-danger"
+                onClick={handleReset}
               >
-                <span className="fa fa-close mr-2"></span>Hủy Bỏ
+                <span className="fa fa-close mr-2"></span>
+                Hủy Bỏ
               </button>
             </div>
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
-}
+};
 
 export default Form;

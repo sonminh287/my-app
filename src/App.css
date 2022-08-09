@@ -70,6 +70,9 @@ body {
   float: right;
   cursor: pointer;
 }
+.text-left {
+  float: left;
+}
 
 .panel-warning > .panel-heading {
   color: #8a6d3b;
@@ -153,4 +156,67 @@ h3 {
 
 .hoverX:hover {
   color: red;
+}
+.fa-check:before {
+  content: "\f00c";
+}
+.canchinh {
+  margin-right: 685px;
+}
+
+/* -------------------------------------- */
+
+@-webkit-keyframes my {
+  0% {
+    color: purple;
+  }
+  50% {
+    color: #fff;
+  }
+  100% {
+    color: purple;
+  }
+}
+@-moz-keyframes my {
+  0% {
+    color: purple;
+  }
+  50% {
+    color: #fff;
+  }
+  100% {
+    color: purple;
+  }
+}
+@-o-keyframes my {
+  0% {
+    color: purple;
+  }
+  50% {
+    color: #fff;
+  }
+  100% {
+    color: purple;
+  }
+}
+@keyframes my {
+  0% {
+    color: purple;
+  }
+  50% {
+    color: #fff;
+  }
+  100% {
+    color: purple;
+  }
+}
+.test {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 32px;
+  font-weight: 1px;
+  -webkit-animation: my 700ms infinite;
+  -moz-animation: my 700ms infinite;
+  -o-animation: my 700ms infinite;
+  animation: my 700ms infinite;
 }
