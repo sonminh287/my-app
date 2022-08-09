@@ -9,8 +9,7 @@ const reducer = (state, action) => {
         ...state,
         items: [...storingCurrentItem, action.payload],
       };
-      console.log();
-      //const handleNew = async () => {
+
       localStorage.setItem("todos", JSON.stringify(newItems.items));
       return {
         ...state,

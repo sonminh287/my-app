@@ -1,87 +1,114 @@
+import { useRef, useEffect } from "react";
 import "../App.css";
-import { GlobalText } from "../context/GlobalState";
-import { useContext, useState } from "react";
 import { makeId } from "../util";
-
 function Form(props) {
-  const [name, setName] = useState("");
-  const [status, setStatus] = useState(false);
+  const { handleShowForm, handleData, isEdit, itemEdit, setIsEdit, editData } =
+    props;
 
-  const { openForm } = props;
-  const { addTask } = useContext(GlobalText);
-  // console.log("props", props);
+  const name = useRef();
+  const status = useRef();
 
-  function handleSubmit() {
-    let newTask = {
-      id: makeId(),
-      name: name,
-      status: status,
-    };
-    if (name !== "") {
-      addTask(newTask);
-      setName("");
-      setStatus(false);
+  useEffect(() => {
+    if (isEdit) {
+      name.current.value = itemEdit.name;
+      status.current.value = itemEdit.status ? 1 : 0;
+    } else {
+      name.current.value = "";
+      status.current.value = 1;
     }
+  }, [isEdit, itemEdit]);
+  function closedForm() {
+    handleShowForm(false);
   }
-  function handleOpenform() {
-    // console.log("here");
-    openForm();
+  function clearForm() {
+    // set value mặc định
+    name.current.value = "";
+    status.current.value = 1;
+    handleShowForm(false);
+    // closedForm();
+  }
+  function handleSubmit(event) {
+    //1 chặn load lại form
+    event.preventDefault();
+    //2 lấy data từ input name
+    // dùng event
+    // const name = event.target[0].value;
+    // const status = event.target[1].value;
+    // dùng ref
+    //3 kiểm tra name có value mới thực thi
+    if (name.current.value !== "") {
+      //4 tạo item mới
+      const newData =
+        isEdit === false
+          ? {
+              id: makeId(),
+              name: name.current.value,
+              status: status.current.value === "1" ? true : false,
+            }
+          : {
+              id: itemEdit.id,
+              name: name.current.value,
+              status: status.current.value === "1" ? true : false,
+            };
+      //5 truyền lên app
+      if (isEdit) {
+        editData(newData);
+        setIsEdit(false);
+      } else {
+        // addData(newData);
+        handleData(newData);
+      }
+      // clear data
+      clearForm();
+    }
   }
   return (
     <>
       <div className="panel panel-warning">
         <div className="panel-heading">
-          <h3 className="panel-title">
-            Thêm Công Việc
+          <h3 className="px-3 panel-title">
+            {isEdit === false ? "Thêm công việc" : "Cập nhật công việc"}
             <span
-              onClick={handleOpenform}
-              className="fa fa-times-circle text-right"
+              onClick={closedForm}
+              className="fa fa-times-circle text-right hoverX"
             ></span>
           </h3>
         </div>
         <div className="panel-body">
-          <div className="panel panel-default">
-            <div className="panel-heading ">
-              <div className="form-group">
-                <label>
-                  <b>Tên :</b>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
+          <form className="p-3" onSubmit={handleSubmit}>
+            <div className="form-group">
               <label>
-                <b>Trạng Thái :</b>
+                <b>Tên :</b>
               </label>
-              <select
+              <input
+                ref={name}
+                type="text"
                 className="form-control"
-                name="status"
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-              >
-                <option value={true}>Kích Hoạt</option>
-                <option value={false}>Ẩn</option>
-              </select>
-              <br />
-              <div className="text-center">
-                <button className="btn btn-warning" onClick={handleSubmit}>
-                  <span className="fa fa-plus mr-2"></span>Lưu Lại
-                </button>
-                &nbsp;
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={handleOpenform}
-                >
-                  <span className="fa fa-close mr-2"></span>Hủy Bỏ
-                </button>
-              </div>
+                name="name"
+              />
             </div>
-          </div>
+            <label>
+              <b>Trạng Thái :</b>
+            </label>
+            <select ref={status} className="form-control" name="status">
+              <option value={1}>Kích Hoạt</option>
+              <option value={0}>Ẩn</option>
+            </select>
+            <br />
+            <div className="text-center">
+              <button type="submit" className="btn btn-warning">
+                <span className="fa fa-plus mr-2"></span>Lưu Lại
+              </button>
+              &nbsp;
+              <button
+                onClick={clearForm}
+                type="button"
+                className="btn btn-danger"
+              >
+                <span className="fa fa-close mr-2"></span>Hủy Bỏ
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </>
